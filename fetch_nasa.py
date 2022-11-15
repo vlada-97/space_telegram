@@ -2,14 +2,9 @@ import os
 import requests
 import pathlib
 from urllib.parse import urlparse
+from dotenv import load_dotenv
 
-
-def get_image(url, way, params = None):
-    response = requests.get(url, params = params)
-    response.raise_for_status()
-
-    with open(way, 'wb') as file:
-        file.write(response.content)
+import download_image
 
 
 def get_extension(url):
@@ -38,12 +33,14 @@ def fetch_nasa(folder_name, api_key):
             nasa_link_image = image_nasa["url"]
             extension = get_extension(nasa_link_image)
             file_path = f"{folder_name}/nasa{number}{extension}"
-            get_image(nasa_link_image, file_path, params)
+            download_image.get_image(nasa_link_image, file_path, params)
 
 
-def main():
-    folder_nasa = os.environ["FOLDER_NASA"]
-    api_key = os.environ['API_KEY']
+if __name__ == '__main__':
+    load_dotenv()
+
+    folder_nasa = os.getenv('FOLDER_NASA')
+    api_key = os.getenv('API_KEY')
     
     pathlib.Path(folder_nasa).mkdir(parents=True, exist_ok=True)
     fetch_nasa(folder_nasa, api_key)
