@@ -9,15 +9,12 @@ from os.path import join as joinpath
 import telegram
 from dotenv import load_dotenv
 
+import image_files_listdir
+
 def random_photo(bot, chat_id):
     Path = 'nasa' + '/'
-    for image_file in listdir(Path):
-        if isfile(joinpath(Path, image_file)):
-            filesindir = os.listdir(Path)
-            for files in filesindir:
-                random.shuffle(filesindir)
-                path_file = os.path.join(files)
-        bot.send_document(chat_id=chat_id, document=open(Path + path_file, 'rb'))
+    path_files = image_files_listdir.files_listdir(Path)
+    bot.send_document(chat_id=chat_id, document=open(Path + path_files, 'rb'))
 
 
 def send_photo(bot, chat_id, img):
