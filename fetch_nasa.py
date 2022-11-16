@@ -20,6 +20,7 @@ def fetch_nasa(folder_name, api_key):
     count = 30
     params = {
         "api_key": api_key,
+        'media_type': 'image',
         "count": count
     }
 
@@ -40,7 +41,7 @@ if __name__ == '__main__':
     load_dotenv()
 
     folder_nasa = os.getenv('FOLDER_NASA')
-    api_key = os.getenv('API_KEY')
+    api_key = os.getenv('NASA_API_KEY')
     
     pathlib.Path(folder_nasa).mkdir(parents=True, exist_ok=True)
     fetch_nasa(folder_nasa, api_key)
