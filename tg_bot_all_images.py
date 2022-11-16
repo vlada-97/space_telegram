@@ -15,8 +15,9 @@ from dotenv import load_dotenv
 import image_files_listdir
 
 def upload_images_to_tg(Path, bot, chat_id):
+    Path = 'nasa' + '/'
     path_files = image_files_listdir.files_listdir(Path)
-    bot.send_document(chat_id=chat_id, document=open(Path + path_files, 'rb'))
+    bot.send_document(chat_id=chat_id, document=open(f"{Path} + {path_files}", 'rb'))
 
 
 def shedule():
@@ -32,9 +33,9 @@ if __name__ == '__main__':
     Path = args.Path
     Path = Path + '/'
 
-    bot_token = os.getenv('BOT_TOKEN')
-    chat_id = os.getenv('CHAT_ID')
-    hours_break = os.getenv('HOURS_BREAK')
+    bot_token = os.getenv('TG_BOT_TOKEN')
+    chat_id = os.getenv('TG_CHAT_ID')
+    hours_break = os.getenv('TG_SEND_HOURS_BREAK')
 
     bot = telegram.Bot(token=bot_token)
     bot.token = bot._validate_token(bot_token)
