@@ -12,22 +12,17 @@ import schedule
 import telegram
 from dotenv import load_dotenv
 
+import image_files_listdir
 
 def upload_images_to_tg(Path, bot, chat_id):
-    Path = Path + '/'
-    for image_file in listdir(Path):
-        if isfile(joinpath(Path, image_file)):
-            filesindir = os.listdir(Path)
-            for files in filesindir:
-                random.shuffle(filesindir)
-                path_file = os.path.join(files)
-                print(path_file)
-                bot.send_document(chat_id=chat_id, document=open(Path + path_file, 'rb'))
+    path_files = image_files_listdir.files_listdir(Path)
+    bot.send_document(chat_id=chat_id, document=open(Path + path_files, 'rb'))
 
 
 def shedule():
     schedule.every().hour.do(upload_images_to_tg)
 
+   
 if __name__ == '__main__':
     load_dotenv()
 
