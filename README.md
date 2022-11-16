@@ -32,7 +32,7 @@ A5hprV1EZOAqsg4R9dqNqvCkzNRp2f5UdsflbtHv
 Записать файл нужно в виде:
 
 ```python
-API_KEY=токен
+NASA_API_KEY=токен
 ```
 
 Cтрока `load_dotenv()` в коде берет файл `.env` из текущего каталога и настраивает переменные окружения, которые прописаны в данном файле.
@@ -41,7 +41,7 @@ Cтрока `load_dotenv()` в коде берет файл `.env` из теку
 ```python
     link_epic = "https://api.nasa.gov/EPIC/api/natural/image"
     params = {
-        "nasa_key": API_KEY
+        "nasa_key": NASA_API_KEY
     }
 ```
 
@@ -61,7 +61,7 @@ python fetch_nasa.py
 
 ```python
 FOLDER_EPIC=epic 
-API_KEY=токен
+NASA_API_KEY=токен
 ```
 
 Пример использования скрипта в командной строке:
@@ -75,10 +75,10 @@ python fetch_nasa_epic.py
 
 ```python
 FOLDER_SPACEX=spacex
-API_KEY=токен
+NASA_API_KEY=токен
 ```
 
-Для запуска скрипта трубуется аргумент [-id], означающий id нужного запуска в космос [SpaceX](https://api.spacexdata.com/v5/launches/).
+Для запуска скрипта трубуется аргумент [-id_spacex], означающий id нужного запуска в космос [SpaceX](https://api.spacexdata.com/v5/launches/).
 Пример использования скрипта в командной строке:
 ```sh
 python fetch_spacex_last_launch.py 5eb87d04ffd86e000604b353
@@ -107,17 +107,17 @@ download_image.get_image(link, file_path)
 Токен твоего бота, который можно получить в телеграме у [BotFather](https://t.me/BotFather). Записывается в `.env` в виде:
 
 ```python
-BOT_TOKEN=токен
+TG_BOT_TOKEN=токен
 ```
 
 Чат-айди своего телеграм-канала, который можно найти в шапке профиля. Запись в `.env` в виде:
 ```python
-CHAT_ID=@айди
+TG_CHAT_ID=@айди
 ```
 
 Числовая переменная, имеющая значение временного промежутка между рассылками фото в часах (по умолчанию, имела 4).
 ```python
-HOURS_BREAK=число
+TG_SEND_HOURS_BREAK=число
 ```
 
 Пример использования скрипта в командной строке:
@@ -130,8 +130,8 @@ python tg_bot_all_images.py
 Требуемые для запуска скрипта `.env`:
 
 ```python
-BOT_TOKEN=токен
-CHAT_ID=@айди
+TG_BOT_TOKEN=токен
+TG_CHAT_ID=@айди
 ```
 
 Для запуска скрипта трубуется аргумент [-img],  означающий полный путь до файла с персонального компьютера, с директориями и названием файла. 
@@ -141,16 +141,29 @@ python tg_bot_random_image.py C:\Users\NASA\epic_nasa/epic_1b_20221113190500.png
 ```
 В случае, если путь указан неверно, в канал будет отправлено рандомное фото космоса. 
 
+> ### image_files_listdir.py
+Скрипт возвращает список, содержащий имена записей в каталоге, указанном путем (Path). В нашем случае, фотографй космоса.Вынесен как отельный файл по принципу разработки DRY. Во избежание повторения части кода, импортирован в файлы:
+
+```python
+import image_files_listdir
+```
+Использование в коде:
+
+```python
+path_files = image_files_listdir.files_listdir(Path)
+bot.send_document(chat_id=chat_id, document=open($"{Path} + {path_files}", 'rb'))
+```
+
 ## Переменные окружения проекта
 
 | TITLE | PURPOSE |
 | ------ | ------ |
-| CHAT_ID |твоего канала в telegram |
-| BOT_TOKEN | токен твоего чат-бота в telegram |
-| API_KEY | токен с сайта NASA для доступа к фото |
+| TG_CHAT_ID |твоего канала в telegram |
+| TG_BOT_TOKEN | токен твоего чат-бота в telegram |
+| NASA_API_KEY | токен с сайта NASA для доступа к фото |
 | FOLDER_NASA | название папки для фотографий космоса NASA |
 | FOLDER_EPIC | название папки для фотографий космоса NASA epic |
-| HOURS_BREAK | частота загружаемых фотографий в telegram-канал |
+| TG_SEND_HOURS_BREAK | частота загружаемых фотографий в telegram-канал |
 | FOLDER_SPACEX | название папки для фотографий последнего запуска SpaceX|
 
 ## Цель проекта
