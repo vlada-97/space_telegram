@@ -10,11 +10,11 @@ import telegram
 from dotenv import load_dotenv
 
 import image_files_listdir
+PATH = 'nasa' + '/'
 
 def random_photo(bot, chat_id):
-    Path = 'nasa' + '/'
-    path_files = image_files_listdir.files_listdir(Path)
-    bot.send_document(chat_id=chat_id, document=open(Path + path_files, 'rb'))
+    path_files = image_files_listdir.files_listdir(PATH)
+    bot.send_document(chat_id=chat_id, document=open(f"{PATH} + {path_files}", 'rb'))
 
 
 def send_photo(bot, chat_id, img):
@@ -31,8 +31,8 @@ if __name__ == '__main__':
     args = parser.parse_args()
     img = args.img
     
-    bot_token = os.getenv('BOT_TOKEN')
-    chat_id = os.getenv('CHAT_ID')
+    bot_token = os.getenv('TG_BOT_TOKEN')
+    chat_id = os.getenv('TG_CHAT_ID')
     bot = telegram.Bot(token=bot_token)
 
     try:
